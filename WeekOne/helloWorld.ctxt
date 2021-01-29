@@ -1,0 +1,8 @@
+#BlueJ class context
+comment0.target=helloWorld
+comment0.text=\r\n\ Return\ a\ classic\ "hello\ world"\ in\ many\ languages\r\n\ \r\n\ @francisco\ (tarantuviezf@gmail.com)\ \r\n\ @v1.0.0\ (1/29/2021)\r\n
+comment1.params=x
+comment1.target=int\ f(int)
+comment2.params=
+comment2.target=int\ h()
+numComments=3
