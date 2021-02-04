@@ -1,4 +1,7 @@
 #BlueJ class context
 comment0.target=Part1
-comment0.text=\r\n\ Part\ 1\ of\ the\ exercises\ in\ Week\ 2\ of\ the\ course.\r\n\ \r\n\ \r\n\r\n
-numComments=1
+comment1.params=s
+comment1.target=java.lang.String\ findSimpleGene(java.lang.String)
+comment2.params=args
+comment2.target=void\ main(java.lang.String[])
+numComments=3
