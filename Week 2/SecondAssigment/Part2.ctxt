@@ -1,0 +1,11 @@
+#BlueJ class context
+comment0.target=Part2
+comment1.params=stringa\ stringb
+comment1.target=int\ howMany(java.lang.String,\ java.lang.String)
+comment2.params=dna
+comment2.target=int\ howManyGenes(java.lang.String)
+comment3.params=dna
+comment3.target=java.lang.String\ mystery(java.lang.String)
+comment4.params=args
+comment4.target=void\ main(java.lang.String[])
+numComments=5
