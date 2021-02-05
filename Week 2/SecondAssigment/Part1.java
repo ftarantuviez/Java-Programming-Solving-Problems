@@ -33,12 +33,24 @@ public class Part1 {
         return dna.substring(atgIndex, indexes.get(0)+3);
     }
     
+    public void printAllGenes(String dna){
+        int lastIndex = 0;
+        while(lastIndex <= dna.length()){
+            int firstIndex = dna.indexOf("ATG", lastIndex);
+            int secondIndex = dna.indexOf("TAA", firstIndex);
+            if(firstIndex == -1 || secondIndex == -1) break;
+            System.out.println(dna.substring(firstIndex, secondIndex+3));
+            lastIndex = secondIndex + 3;
+        }
+        
+    }
+    
     public static void main(String[] args){
         Part1 part1 = new Part1();
         String dna = "ASDFASATGSDFFATAGIEOASGCTAA";
         FileResource fr = new FileResource();
         int indexFirst = 5;
         String stopCodon = "FAF";
-        System.out.println(part1.findGene(fr.toString()));
+        part1.printAllGenes(fr.asString());
     }
 }
