@@ -66,6 +66,89 @@ public class Exercises2 {
     }
     
     public CSVRecord lowestHumidityInFile(CSVParser parser){
+        CSVRecord lowestHumidity = null;
+        for (CSVRecord row : parser){
+            double rowH = Double.parseDouble(row.get("Humidity"));
+            if(lowestHumidity == null) lowestHumidity = row;
+            double lowestHumidityH = Double.parseDouble(lowestHumidity.get("Humidity"));
+            if(lowestHumidityH > rowH){
+                lowestHumidity = row;
+            }
+        }
         
+        return lowestHumidity;
+    }
+    
+    public void testLowestHumidityInFile(){
+        FileResource fr = new FileResource();
+        CSVParser parser = fr.getCSVParser();
+        CSVRecord test = lowestHumidityInFile(parser);
+        
+        System.out.println("Lowest Humidity was: " + test.get("Humidity") + " at " + test.get("DateUTC"));
+    }
+    
+    public CSVRecord lowestHumidityInManyFiles(){
+        DirectoryResource dr = new DirectoryResource();
+        double lowestHumidity = 100.0;
+        CSVRecord row = null;
+        for(File f : dr.selectedFiles()){
+            FileResource fr = new FileResource(f);
+            CSVParser parser = fr.getCSVParser();
+           
+            CSVRecord lowestHumidityRow = lowestHumidityInFile(parser);
+            double lowestHumidityRowH = Double.parseDouble(lowestHumidityRow.get("Humidity"));
+            
+            if(row == null) row=lowestHumidityRow;
+            if(lowestHumidity > lowestHumidityRowH){
+                lowestHumidity = lowestHumidityRowH;
+                row = lowestHumidityRow;
+            }
+        }
+        
+        return row;
+    }
+    
+    public void testLowestHumidityInManyFiles(){
+        CSVRecord lowestHumidity = lowestHumidityInManyFiles();
+        System.out.println("Lowest Humidity was: " + lowestHumidity.get("Humidity") + " at " + lowestHumidity.get("DateUTC"));
+    }
+    
+    public double averageTemperatureInFile(CSVParser parser){
+        double i = 0;
+        int j = 0;
+        
+        for(CSVRecord row : parser){
+            i += Double.parseDouble(row.get("TemperatureF"));
+            j += 1;
+        }
+        return i/j;
+    }
+    
+    public void testAverageTemperatureInFile(){
+        FileResource fr = new FileResource();
+        CSVParser parser = fr.getCSVParser();
+        double averageTemperatureTest = averageTemperatureInFile(parser);
+        System.out.println("The average temperature in file is: " + averageTemperatureTest);
+    }
+    
+    public double averageTemperatureWithHighHumidityInFile(CSVParser parser, int value){
+        double i = 0.0;
+        int j = 0;
+        for(CSVRecord row : parser){
+            double humidity = Double.parseDouble(row.get("Humidity"));
+            if(humidity<value) continue;
+            j+=1;
+            i+=Double.parseDouble(row.get("TemperatureF"));
+        }
+        return j>0 ? i/j : -1000000;
+    }
+    
+    public void testAverageTemperatureWithHighHumidityInFile(){
+        FileResource fr = new FileResource();
+        CSVParser parser = fr.getCSVParser();
+        int value = 80;
+        double averageTemperatureTest = averageTemperatureWithHighHumidityInFile(parser, value);
+        if(averageTemperatureTest<-1000) System.out.println("No temperatures with " + value + " as humidity");
+        else System.out.println("Average temperature when humidity >= " + value + " is " + averageTemperatureTest);
     }
 }
