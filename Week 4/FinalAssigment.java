@@ -52,7 +52,7 @@ public class FinalAssigment {
     }
     
     public int getRank(int year, String name, String gender){
-        String URL = "datasets/us_babynames_test/yob" + Integer.toString(year) + "short.csv";
+        String URL = "datasets/us_babynames_by_year/yob" + Integer.toString(year) + ".csv";
         FileResource fr = new FileResource(URL);
         int position = 0;
         boolean isName = false;
@@ -70,14 +70,14 @@ public class FinalAssigment {
     }
     
     public void testGetRank(){
-        int year = 2012;
-        String name = "Mason";
-        String gender = "F";
+        int year = 1971;
+        String name = "Frank";
+        String gender = "M";
         System.out.println(getRank(year, name, gender));
     }
     
     public String getName(int year, int rank, String gender){
-        String URL = "datasets/us_babynames_test/yob" + Integer.toString(year) + "short.csv";
+        String URL = "datasets/us_babynames_by_year/yob" + Integer.toString(year) + ".csv";
         FileResource fr = new FileResource(URL);
         int position = 0;
         String name = null;
@@ -97,11 +97,11 @@ public class FinalAssigment {
     }
     
     public void testGetName(){
-        System.out.println(getName(2012, 1, "M"));
+        System.out.println(getName(1982, 450, "M"));
     }
     
     public void whatIsNameInYear(String name, int year, int newYear, String gender){;
-        String URL_NEW_YEAR = "datasets/us_babynames_test/yob" + Integer.toString(newYear) + "short.csv";
+        String URL_NEW_YEAR = "datasets/us_babynames_by_year/yob" + Integer.toString(newYear) + ".csv";
         FileResource fr = new FileResource(URL_NEW_YEAR);
         CSVParser parser = fr.getCSVParser(false);
         
@@ -125,9 +125,9 @@ public class FinalAssigment {
     }
     
     public void testWhatIsNameInYear(){
-        String name = "Isabella";
-        int year = 2012;
-        String gnder = "F";
+        String name = "Owen";
+        int year = 1974;
+        String gnder = "M";
         int newYear = 2014;
         whatIsNameInYear(name, year, newYear, gnder);
     }
@@ -165,7 +165,7 @@ public class FinalAssigment {
     }
     
     public void testYearOfHighestRank(){
-        String name = "Mason";
+        String name = "Mich";
         String year  = "M";
         System.out.println(yearOfHighestRank(name,year));
     }
@@ -192,7 +192,7 @@ public class FinalAssigment {
     }
     
     public void testGetAverageRank(){
-        String name = "Mason";
+        String name = "Robert";
         String gender = "M";
         System.out.println(getAverageRank(name, gender));
     }
@@ -200,7 +200,7 @@ public class FinalAssigment {
     public int getTotalBirthsRankedHigher(int year, String name, String gender){
         int rank = getRank(year, name, gender);
         
-        String URL = "datasets/us_babynames_test/yob" + Integer.toString(year) + "short.csv";
+        String URL = "datasets/us_babynames_by_year/yob" + Integer.toString(year) + ".csv";
         FileResource fr = new FileResource(URL);
         CSVParser parser = fr.getCSVParser(false);
         int position = 0;
@@ -217,8 +217,8 @@ public class FinalAssigment {
     }
     
     public void testGetTotalBirthsRankedHigher(){
-        int year = 2012;
-        String name = "Ethan";
+        int year = 1990;
+        String name = "Drew";
         String gender = "M";
         System.out.println(getTotalBirthsRankedHigher(year,name,gender));
     }
