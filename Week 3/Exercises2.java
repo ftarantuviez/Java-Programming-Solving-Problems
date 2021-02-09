@@ -68,6 +68,7 @@ public class Exercises2 {
     public CSVRecord lowestHumidityInFile(CSVParser parser){
         CSVRecord lowestHumidity = null;
         for (CSVRecord row : parser){
+            if(row.get("Humidity").equals("N/A")) continue;
             double rowH = Double.parseDouble(row.get("Humidity"));
             if(lowestHumidity == null) lowestHumidity = row;
             double lowestHumidityH = Double.parseDouble(lowestHumidity.get("Humidity"));
@@ -96,6 +97,7 @@ public class Exercises2 {
             CSVParser parser = fr.getCSVParser();
            
             CSVRecord lowestHumidityRow = lowestHumidityInFile(parser);
+            if(lowestHumidityRow.get("Humidity").equals("N/A")) continue;
             double lowestHumidityRowH = Double.parseDouble(lowestHumidityRow.get("Humidity"));
             
             if(row == null) row=lowestHumidityRow;

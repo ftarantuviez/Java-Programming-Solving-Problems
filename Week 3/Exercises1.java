@@ -45,8 +45,8 @@ public class Exercises1{
         FileResource fr = new FileResource();
         CSVParser parser = fr.getCSVParser();
         //getCountryInfo(parser, "Nauru");
-        //listExportersTwoProducts(parser, "gold", "diamonds");
-        //System.out.println(numberOfExporters(parser, "gold"));
+        //listExportersTwoProducts(parser, "cotton", "flowers");
+        //System.out.println(numberOfExporters(parser, "cocoa"));
         bigExporters(parser, "$999,999,999,999");
     }
 
