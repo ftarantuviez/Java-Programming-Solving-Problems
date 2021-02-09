@@ -2,6 +2,8 @@ import edu.duke.*;
 import org.apache.commons.csv.*;
 import java.util.*;
 import java.io.File;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class FinalAssigment {
     public void printNames(){
@@ -96,5 +98,128 @@ public class FinalAssigment {
     
     public void testGetName(){
         System.out.println(getName(2012, 1, "M"));
+    }
+    
+    public void whatIsNameInYear(String name, int year, int newYear, String gender){;
+        String URL_NEW_YEAR = "datasets/us_babynames_test/yob" + Integer.toString(newYear) + "short.csv";
+        FileResource fr = new FileResource(URL_NEW_YEAR);
+        CSVParser parser = fr.getCSVParser(false);
+        
+        int currentPosition = getRank(year, name, gender);
+        int newPosition = 0;
+        
+        for(CSVRecord row : parser){
+            String gnder = row.get(1);
+            if(!gnder.equals(gender))continue;
+            newPosition +=1;
+            if(newPosition == currentPosition){
+                String rankName = row.get(0);
+                System.out.println(name 
+                                    + " born in " + year + 
+                                     " would be " + rankName +
+                                     " if she was born in " + newYear
+                                     );
+                break;
+            }
+        }
+    }
+    
+    public void testWhatIsNameInYear(){
+        String name = "Isabella";
+        int year = 2012;
+        String gnder = "F";
+        int newYear = 2014;
+        whatIsNameInYear(name, year, newYear, gnder);
+    }
+    
+    public int yearOfHighestRank(String name, String gender){
+        DirectoryResource dr = new DirectoryResource();
+        int highestPosition = 0;
+        File highestYear = null;
+        boolean isName = false;
+        for(File f : dr.selectedFiles()){
+            FileResource fr = new FileResource(f);
+            int position = 0;
+            for(CSVRecord row : fr.getCSVParser(false)){
+                String gnder = row.get(1);
+                if(!gnder.equals(gender))continue;
+                position +=1;
+                if(name.equals(row.get(0))){
+                    isName = true;
+                    break;
+                }
+            }
+
+            
+            if(position<highestPosition || highestPosition == 0){
+                highestPosition = position;
+                highestYear = f;
+            }
+        }
+        
+        Pattern pattern = Pattern.compile("\\d{4}");
+        Matcher matcher = pattern.matcher(highestYear.getName());
+        boolean matchFound = matcher.find();
+        int finalYear = Integer.parseInt(matcher.group(0));
+        return isName ? finalYear : -1;
+    }
+    
+    public void testYearOfHighestRank(){
+        String name = "Mason";
+        String year  = "M";
+        System.out.println(yearOfHighestRank(name,year));
+    }
+    
+    public double getAverageRank(String name, String gender){
+        DirectoryResource dr = new DirectoryResource();
+        int total = 0;
+        double rank = 0.0;
+        for(File f : dr.selectedFiles()){
+            FileResource fr = new FileResource(f);
+            int position = 0;
+            for (CSVRecord row : fr.getCSVParser(false)){
+                String gnder = row.get(1);
+                if(!gnder.equals(gender))continue;
+                position += 1;
+                if(name.equals(row.get(0))){
+                    total += 1;
+                    rank += position;
+                }
+            }
+        }
+        
+        return total > 0 ? rank/total : -1.0;
+    }
+    
+    public void testGetAverageRank(){
+        String name = "Mason";
+        String gender = "M";
+        System.out.println(getAverageRank(name, gender));
+    }
+    
+    public int getTotalBirthsRankedHigher(int year, String name, String gender){
+        int rank = getRank(year, name, gender);
+        
+        String URL = "datasets/us_babynames_test/yob" + Integer.toString(year) + "short.csv";
+        FileResource fr = new FileResource(URL);
+        CSVParser parser = fr.getCSVParser(false);
+        int position = 0;
+        int totalBirths = 0;
+        for(CSVRecord row : parser){
+            String gnder = row.get(1);
+            if(!gnder.equals(gender))continue;
+            position += 1;
+            if(position==rank) break;
+            else totalBirths += Integer.parseInt(row.get(2));
+        }
+        
+        return totalBirths;
+    }
+    
+    public void testGetTotalBirthsRankedHigher(){
+        int year = 2012;
+        String name = "Ethan";
+        String gender = "M";
+        System.out.println(getTotalBirthsRankedHigher(year,name,gender));
     }
 }
